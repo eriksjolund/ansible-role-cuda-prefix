@@ -1,0 +1,48 @@
+---
+- name: Create download directory
+  file: path="{{ tmp_nvidia_download_dir }}" state=directory
+- name: Download CUDA md5sum-txt file    
+  get_url:
+      url: "https://developer.nvidia.com/compute/cuda/{{ cuda_version }}/Prod2/docs/sidebar/md5sum-txt"
+      dest: "{{ tmp_nvidia_download_dir }}/md5sum-txt"
+      force: yes
+- name: Parse md5sum-txt file to get download URL
+  shell: grep linux.run "{{ tmp_nvidia_download_dir }}/md5sum-txt"
+  register: linux_run_file_line
+- set_fact:
+    destfile: "{{ tmp_nvidia_download_dir }}/{{ linux_run_file_line.stdout.split(' ')[1] }}"
+- name: Download CUDA linux.run
+  get_url:
+      url: "https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/{{ linux_run_file_line.stdout.split(' ')[1].replace('linux.run','linux-run')}}"
+      dest: "{{ destfile }}"
+      force: no
+      checksum: "md5: {{ linux_run_file_line.stdout.split(' ')[0] }}"
+      mode: 0700
+- name: Create temporary directory
+  command: mktemp -d 
+  register: created_tmp_dir_path
+- name: Extract CUDA linux.run
+  command: "{{ destfile }} -extract={{ created_tmp_dir_path.stdout }}"
+- name: create install directory
+  file: path="{{ CUDA_install_dir }}/{{ cuda_version }}" state=directory
+  file: path="{{ CUDA_install_dir }}/{{ cuda_version }}/samples" state=directory
+- name: Install CUDA toolkit
+  shell: "{{ created_tmp_dir_path.stdout }}/cuda-linux64-rel-{{ cuda_version }}*.run -prefix={{ CUDA_install_dir }}/{{ cuda_version }} -noprompt -nosymlink"
+- name: Install CUDA samples
+  shell: "{{ created_tmp_dir_path.stdout }}/cuda-samples-linux-{{ cuda_version }}*.run -cudaprefix={{ CUDA_install_dir }}/{{ cuda_version }} -prefix={{ CUDA_install_dir }}/{{ cuda_version }}/samples -noprompt -nosymlink"
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+- name: Install required packages for building the NVIDIA kernel module
+  apt: name={{item}} state=present
+  with_items:
+   - dkms
+   - build-essential
+   - gcc  
+   - g++
+   - gcc-multilib
+   - g++-multilib
+   - make
+   - linux-headers-generic
+# should these options be used? --run-nvidia-xconfig  --x-prefix
+# - name: Install CUDA gdk
+#  shell: "{{ created_tmp_dir_path.stdout }}/NVIDIA-Linux-x86_64-*.run --dkms --disable-nouveau --silent --utility-prefix={{ CUDA_install_dir }}/{{ cuda_version }}/usr  --documentation-prefix={{ CUDA_install_dir }}/{{ cuda_version }}/usr  ---opengl-prefix={{ CUDA_install_dir }}/{{ cuda_version }}/usr  -noprompt -nosymlink"

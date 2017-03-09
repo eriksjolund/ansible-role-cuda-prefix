@@ -1,0 +1,8 @@
+---
+cuda_version: 8.0
+tmp_nvidia_download_dir: /root/tmp_nvidia_download
+CUDA_install_dir: /opt/ansible-role-cuda-prefix-installdir
+
+
+
+

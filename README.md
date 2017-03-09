@@ -1,2 +1,2 @@
 # ansible-role-cuda-prefix
-Ansible role that installs cuda into a custom folder and creates a modulecmd configuration file
+Ansible role that installs NVIDIA® CUDA™ into a custom folder and creates a modulecmd configuration file

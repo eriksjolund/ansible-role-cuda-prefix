@@ -1,0 +1,27 @@
+cuda_versions:
+  8.0:
+    URL: https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
+    md5sum: 33e1bd980e91af4e55f3ef835c103f9b
+  7.5:
+    URL: http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/cuda_7.5.18_linux.run
+    md5sum: 4b3bcecf0dfc35928a0898793cf3e4c6
+  7.0:
+    URL: http://developer.download.nvidia.com/compute/cuda/7_0/Prod/local_installers/cuda_7.0.28_linux.run
+    # md5sum was computed after downloading the file once
+    md5sum: 312aede1c3d1d3425c8caa67bbb7a55e
+  6.5:
+    # This is strange, NVidia provides 6.5.14
+    # https://developer.nvidia.com/cuda-toolkit-65
+    # but in launchpad there is 6.5.19
+    # https://launchpad.net/ubuntu/+archive/primary/+files/nvidia-cuda-toolkit_6.5.19.orig.tar.xz
+    URL: http://developer.download.nvidia.com/compute/cuda/6_5/rel/installers/cuda_6.5.14_linux_64.run
+    # md5sum was computed after downloading the file once
+    md5sum: 90b1b8f77313600cc294d9271741f4da
+  6.0:
+    URL: http://developer.download.nvidia.com/compute/cuda/6_0/rel/installers/cuda_6.0.37_linux_64.run
+    # md5sum was computed after downloading the file once
+    md5sum: 22f50793b6704fe987983302fa7d1707
+  5.5:
+    URL: http://developer.download.nvidia.com/compute/cuda/5_5/rel/installers/cuda_5.5.22_linux_64.run
+    # md5sum was computed after downloading the file once
+    md5sum: 7bb06908bdf33eac0f8426821640c2fb

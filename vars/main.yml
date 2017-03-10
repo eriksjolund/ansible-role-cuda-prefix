@@ -1,8 +1,8 @@
 ---
 cuda_version: 8.0
+
+# moduleshome_dir should match the path set in the environment variable MODULESHOME from the modulecmd (a.k.a environment-modules) 
+# The package environment-variables from Ubuntu 16.04 uses for instance the path /usr/share/modules.
+moduleshome_dir: /opt/modules
 tmp_nvidia_download_dir: /root/tmp_nvidia_download
 CUDA_install_dir: /opt/ansible-role-cuda-prefix-installdir
-
-
-
-

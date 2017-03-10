@@ -1,0 +1,7 @@
+---
+- name: Be sure the modulecmd home dir exists
+  file: path="{{ moduleshome_dir }}" state=directory
+- name: Be sure the subdirectory cuda exists
+  file: path="{{ moduleshome_dir }}/cuda" state=directory
+- name: Install modulefile for modulecmd (a.k.a environment-modules)
+  template: src=modulefile.j2 dest="{{ moduleshome_dir }}/cuda/{{ cuda_version }}"
